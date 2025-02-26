@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginApp {
 
@@ -75,6 +76,23 @@ public class LoginApp {
                 loginButton.setBackground(new Color(0, 102, 204));
             }
         });
+
+        JButton hienThiPass = new JButton("👁");
+        hienThiPass.setBounds(255, 11, 30, 30);
+        hienThiPass.addActionListener(new ActionListener() {
+            boolean[] hienMatKhau = new boolean[]{false};
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(this.hienMatKhau[0]){
+                    passwordField.setEchoChar('•');// Đặt ký tự che mật khẩu
+                    this.hienMatKhau[0] = false;
+                } else {
+                    passwordField.setEchoChar((char) 0); // Hiển thị mật khẩu
+                    this.hienMatKhau[0] = true;
+                }
+            }
+        });
+        loginFrame.add(hienThiPass);
 
         // Bố trí các thành phần trong panel form
         gbc.gridx = 0;

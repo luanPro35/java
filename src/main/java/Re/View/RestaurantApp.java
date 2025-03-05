@@ -1,8 +1,7 @@
-package swing;
+package Re.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +19,9 @@ public class RestaurantApp {
     }
 
     private void createAndShowGUI() {
-        mainFrame = new JFrame("Quản lý Nhà hàng");
+        mainFrame = new JFrame("Quản lý Nhà hàng"); // Frame này không hiển thị trực tiếp, chỉ dùng để khởi tạo
         mainFrame.setSize(800, 600);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Không thoát ứng dụng khi đóng
         mainFrame.setLocationRelativeTo(null);
 
         tablePanel = new JPanel();
@@ -32,7 +31,11 @@ public class RestaurantApp {
         startTimer();
 
         mainFrame.add(tablePanel, BorderLayout.CENTER);
-        mainFrame.setVisible(true);
+        // Không setVisible(true) vì panel sẽ được thêm vào MainScreen
+    }
+
+    public JPanel getTablePanel() {
+        return tablePanel; // Trả về panel chứa các bàn
     }
 
     private void initializeTables() {
@@ -55,9 +58,7 @@ public class RestaurantApp {
     private JButton createTableButton(int tableNumber) {
         JButton button = new JButton();
         updateTableButton(button, tableNumber);
-
         button.addActionListener(e -> toggleTableStatus(tableNumber, button));
-
         return button;
     }
 
@@ -70,9 +71,8 @@ public class RestaurantApp {
         String timeText = isOccupied ? formatTime(elapsedTime) : "Trống";
         button.setText("<html><center>Bàn " + tableNumber + "<br>" + timeText + "</center></html>");
 
-        // Đổi màu nền
         if (isOccupied) {
-            button.setBackground(new Color(173, 216, 230)); // Màu xanh dương nhạt (#ADD8E6)
+            button.setBackground(new Color(173, 216, 230));
         } else {
             button.setBackground(Color.WHITE);
         }
@@ -114,7 +114,5 @@ public class RestaurantApp {
         return String.format("%02d:%02d", mins, secs);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(RestaurantApp::new);
-    }
+    // Loại bỏ main method vì nó sẽ được gọi từ MainScreen
 }

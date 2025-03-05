@@ -1,4 +1,4 @@
-package swing;
+package Re.Model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ public class DanhGiaManager {
 
     public DanhGiaManager() {
         // Mở kết nối với cơ sở dữ liệu
-        conn = databaseConnection.connect();
+        conn = DatabaseConnection.connect();
         if (conn != null) {
             // Thêm shutdown hook để tự động xóa danh sách đánh giá khi ứng dụng kết thúc
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

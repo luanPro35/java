@@ -1,5 +1,6 @@
-package swing;
+package Re.View;
 
+import Re.Controller.MainScreen; // Thêm import đúng cho MainScreen
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
@@ -56,7 +57,7 @@ public class LoginApp {
 
             if (username.equals("admin") && password.equals("1234")) {
                 loginFrame.dispose(); // Đóng cửa sổ đăng nhập
-                Re.showMainScreen(); // Chuyển đến giao diện chính
+                MainScreen.showMainScreen(); // Chuyển đến giao diện chính
             } else {
                 JOptionPane.showMessageDialog(loginFrame, "Sai tên đăng nhập hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }

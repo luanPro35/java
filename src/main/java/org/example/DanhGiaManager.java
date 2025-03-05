@@ -1,6 +1,6 @@
 package org.example;
 
-import swing.databaseConnection;
+import Re.Model.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package swing;
+package Re.Model;
 
 public class ThongKe {
     private String ngay;      // Ngày cần thống kê

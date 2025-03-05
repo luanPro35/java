@@ -1,11 +1,8 @@
-package swing;
+package Re.Model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class databaseConnection {
-
+public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/nhahang";
     private static final String USER = "root";
     private static final String PASSWORD = "123456789";
@@ -20,16 +17,6 @@ public class databaseConnection {
         } catch (SQLException e) {
             System.err.println("Connection failed: " + e.getMessage());
             return null;
-        }
-    }
-
-    public static void closeConnection(Connection connection) {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -1,4 +1,4 @@
-package swing;
+package Re.Model;
 
 public class DanhGia {
     private int id;

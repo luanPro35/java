@@ -5,9 +5,9 @@ import Re.Model.KhachHang;
 import javax.swing.*;
 import java.sql.*;
 
-public class CustomerPanel extends BasePanel {
-    public CustomerPanel(JFrame frame, JPanel contentPanel) {
-        super(frame, contentPanel, new String[]{"Mã KH", "Tên KH", "Điện thoại"});
+public class CustomerManagementPanel extends BasePanel {
+    public CustomerManagementPanel(JFrame frame, JPanel contentPanel) {
+        super(frame, contentPanel, new String[]{"Mã khách hàng", "Tên khách hàng", "Số điện thoại"});
     }
 
     @Override

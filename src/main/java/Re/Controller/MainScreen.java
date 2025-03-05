@@ -1,6 +1,5 @@
 package Re.Controller;
 
-import Re.View.RestaurantApp;
 import Re.View.*;
 import javax.swing.*;
 import java.awt.*;
@@ -9,111 +8,95 @@ public class MainScreen {
     private static boolean isMainScreenVisible = true;
     private static JPanel mainContentPanel;
     private static RestaurantApp restaurantApp;
+    private static JFrame frame;
 
     public static void showMainScreen() {
-        JFrame frame = new JFrame("Hệ Thống Quản Lý Nhà Hàng");
+        frame = new JFrame("Restaurant Manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 600);
+        frame.setSize(1200, 700); // Tăng kích thước để phù hợp với nhiều tab
         frame.setLayout(new BorderLayout());
 
-        // Tiêu đề và biểu tượng
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titlePanel.setBackground(new Color(135, 206, 250));
-        JLabel titleLabel = new JLabel("Restaurant Manager");
-        titleLabel.setFont(new Font("Serif", Font.BOLD, 28));
-        titleLabel.setForeground(new Color(25, 25, 112));
-        titlePanel.add(titleLabel);
+        // Tiêu đề
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(new Color(135, 206, 235)); // Màu xanh nhạt giống hình
+        JLabel titleLabel = new JLabel("Hệ Thống Quản Lý Nhà Hàng");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(Color.WHITE);
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
         frame.add(titlePanel, BorderLayout.NORTH);
 
-        // Thanh bên
-        JPanel sidebar = new JPanel(new GridLayout(6, 1)); // 6 hàng cho 6 nút
-        sidebar.setBackground(new Color(224, 255, 255));
-        String[] buttonLabels = {"Thống kê", "Sản phẩm", "Hóa đơn", "Khách hàng", "Đánh Giá", "Bàn ngồi"};
-        JButton[] buttons = new JButton[6];
+        // Thanh bên (Sidebar)
+        JPanel sidebar = new JPanel(new GridLayout(8, 1)); // 8 hàng cho 8 tab
+        sidebar.setBackground(new Color(135, 206, 235));
+        sidebar.setPreferredSize(new Dimension(200, 0));
+        String[] buttonLabels = {
+                "Quản lý bán hàng", "Quản lý sản phẩm", "Lịch sử nhập sản phẩm",
+                "Quản lý khách hàng", "Chương trình khuyến mãi & ưu đãi", "Thống kê",
+                "Hóa đơn", "Bàn ngồi"
+        };
+        JButton[] buttons = new JButton[8];
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(buttonLabels[i]);
             buttons[i].setFocusPainted(false);
             buttons[i].setFont(new Font("Arial", Font.BOLD, 14));
-            buttons[i].setBackground(new Color(173, 216, 230));
-            if (i == 5) { // Chỉ áp dụng cho nút "Swap" (vị trí 5)
-                buttons[i].setPreferredSize(new Dimension(80, 40)); // Kích thước nhỏ hơn (80x40)
-                buttons[i].setMaximumSize(new Dimension(80, 40)); // Giới hạn kích thước tối đa
-            } else {
-                buttons[i].setPreferredSize(new Dimension(120, 60)); // Kích thước mặc định cho các nút khác
-            }
+            buttons[i].setForeground(Color.WHITE);
+            buttons[i].setBackground(new Color(135, 206, 235));
+            buttons[i].setBorderPainted(false);
+            buttons[i].setHorizontalAlignment(SwingConstants.LEFT);
+            buttons[i].setPreferredSize(new Dimension(180, 50)); // Kích thước đồng đều
+            buttons[i].setOpaque(true);
             sidebar.add(buttons[i]);
         }
         frame.add(sidebar, BorderLayout.WEST);
 
         // Nội dung chính
         mainContentPanel = new JPanel(new CardLayout());
-        mainContentPanel.setBackground(new Color(245, 245, 245));
+        mainContentPanel.setBackground(Color.WHITE);
 
-        // Thêm các tab của MainScreen
+        // Tạo các panel cho các tab
         JPanel contentPanel = new JPanel(new CardLayout());
-        contentPanel.add(new StatisticsPanel(frame, contentPanel).getPanel(), "Thống Kê");
-        contentPanel.add(new ProductPanel(frame, contentPanel).getPanel(), "Sản Phẩm");
-        contentPanel.add(new InvoicePanel(frame, contentPanel).getPanel(), "Hóa Đơn");
-        contentPanel.add(new CustomerPanel(frame, contentPanel).getPanel(), "Khách Hàng");
-        contentPanel.add(new ReviewPanel(frame, contentPanel).getPanel(), "Đánh Giá");
+        contentPanel.add(new SalesPanel(frame, contentPanel).getPanel(), "Quản lý bán hàng");
+        contentPanel.add(new ProductManagementPanel(frame, contentPanel).getPanel(), "Quản lý sản phẩm");
+        contentPanel.add(new ImportHistoryPanel(frame, contentPanel).getPanel(), "Lịch sử nhập sản phẩm");
+        contentPanel.add(new CustomerPanel(frame, contentPanel).getPanel(), "Quản lý khách hàng"); // Sử dụng CustomerPanel
+        contentPanel.add(new PromotionPanel(frame, contentPanel).getPanel(), "Chương trình khuyến mãi & ưu đãi");
+        contentPanel.add(new RevenueStatisticsPanel(frame, contentPanel).getPanel(), "Thống kê");
+        contentPanel.add(new InvoicePanel(frame, contentPanel).getPanel(), "Hóa đơn");
 
-        // Thêm panel của MainScreen vào mainContentPanel
         mainContentPanel.add(contentPanel, "MainScreen");
 
         // Khởi tạo RestaurantApp
         restaurantApp = new RestaurantApp();
-        JPanel restaurantPanel = restaurantApp.getTablePanel(); // Giả định RestaurantApp có phương thức getTablePanel()
-        mainContentPanel.add(restaurantPanel, "RestaurantApp");
+        JPanel restaurantPanel = restaurantApp.getTablePanel();
+        mainContentPanel.add(restaurantPanel, "Bàn ngồi");
 
         frame.add(mainContentPanel, BorderLayout.CENTER);
 
+        // Thanh công cụ
+        JPanel toolBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        toolBar.setBackground(new Color(200, 200, 200));
+        JButton addInvoiceButton = new JButton("Thêm Hóa đơn");
+        JButton refreshButton = new JButton("Làm mới");
+        toolBar.add(addInvoiceButton);
+        toolBar.add(refreshButton);
+        frame.add(toolBar, BorderLayout.SOUTH);
+
         // Sự kiện chuyển tab
-        buttons[0].addActionListener(e -> {
-            if (isMainScreenVisible) {
-                CardLayout cl = (CardLayout) contentPanel.getLayout();
-                cl.show(contentPanel, "Thống Kê");
-            }
-        });
-
-        buttons[1].addActionListener(e -> {
-            if (isMainScreenVisible) {
-                CardLayout cl = (CardLayout) contentPanel.getLayout();
-                cl.show(contentPanel, "Sản Phẩm");
-            }
-        });
-
-        buttons[2].addActionListener(e -> {
-            if (isMainScreenVisible) {
-                CardLayout cl = (CardLayout) contentPanel.getLayout();
-                cl.show(contentPanel, "Hóa Đơn");
-            }
-        });
-
-        buttons[3].addActionListener(e -> {
-            if (isMainScreenVisible) {
-                CardLayout cl = (CardLayout) contentPanel.getLayout();
-                cl.show(contentPanel, "Khách Hàng");
-            }
-        });
-
-        buttons[4].addActionListener(e -> {
-            if (isMainScreenVisible) {
-                CardLayout cl = (CardLayout) contentPanel.getLayout();
-                cl.show(contentPanel, "Đánh Giá");
-            }
-        });
-
-        // Sự kiện nút Swap
-        buttons[5].addActionListener(e -> {
-            CardLayout cl = (CardLayout) mainContentPanel.getLayout();
-            if (isMainScreenVisible) {
-                cl.show(mainContentPanel, "RestaurantApp");
-                isMainScreenVisible = false;
-            } else {
-                cl.show(mainContentPanel, "MainScreen");
-                isMainScreenVisible = true;
-            }
-        });
+        for (int i = 0; i < 8; i++) {
+            final int index = i;
+            buttons[i].addActionListener(e -> {
+                CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+                if (buttonLabels[index].equals("Bàn ngồi")) {
+                    cl.show(mainContentPanel, "Bàn ngồi");
+                    isMainScreenVisible = false;
+                } else {
+                    cl.show(mainContentPanel, "MainScreen");
+                    CardLayout clContent = (CardLayout) contentPanel.getLayout();
+                    clContent.show(contentPanel, buttonLabels[index]);
+                    isMainScreenVisible = true;
+                }
+            });
+        }
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

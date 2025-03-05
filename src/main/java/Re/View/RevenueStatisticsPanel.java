@@ -1,11 +1,12 @@
 package Re.View;
 
 import Re.Model.DatabaseConnection;
+import Re.Model.ThongKe;
 import javax.swing.*;
 import java.sql.*;
 
-public class StatisticsPanel extends BasePanel {
-    public StatisticsPanel(JFrame frame, JPanel contentPanel) {
+public class RevenueStatisticsPanel extends BasePanel {
+    public RevenueStatisticsPanel(JFrame frame, JPanel contentPanel) {
         super(frame, contentPanel, new String[]{"Ngày", "Tổng tiền"});
     }
 
